@@ -1,0 +1,157 @@
+package models|//Created by niaobi.org|
+
+//=====user======
+
+//UserNewForm 注册时提交
+=UserNewForm
+-Phone 1 					//Private Info，用户手机号，不可重复 
+-PhoneCC 1 					//Private Info，Country Code
+-Pwd 1 						//Private Info，密码加密，不从服务器返回前端 
+
+####################################
+
+//UserProfileForm 修改profile时提交
+=UserProfileForm
+-Name 1 -bfo					//@昵称 不可重复 最多10个汉字，注册必填（自动默认为电话）
+-Email 1 						//Private Info，邮箱 找回密码第二个方法 可填
+-Birthday 3 -bfo				//生日 unix时间戳默认为631123200（1990年1月1日）可填 
+-Bio 1 							//个性签名 最多128个汉字，支持标签、支持链接 可填
+-Sex 2 -bfo						//生理性别，默认为男，可选	
+-City 1 -bfo					//城市，可填
+-Lat 3 -bfo						//纬度，可填 
+-Lng 3 -bfo						//经度，可填	
+
+####################################
+
+//UserRealPhotoMarkForm 修改头像时提交
+=UserRealPhotoMarkForm
+-isRealPhoto 2 -fjbo			//是否是真人头像
+
+####################################
+
+//UserPwdForm 修改密码时提交
+=UserPwdForm
+-PwdOld 1 				//旧密码
+-PwdNew 1 				//新密码
+
+####################################
+
+//=====role======
+
+//RoleNewForm 新建角色时提交
+=RoleNewForm
+//--请求必填必选--
+-Name 1 -f	 							//名字，不可重复，少于10个字
+-Desc 1 -f								//描述，少于300字
+-City 1 -f								//所在地区，如：Neverland、LaLaLand，少于10个字
+-Sex 1 -f								//心理性别，少于10个字
+-Power 1 -f								//能力或装备，逗号分隔 如：[人类巅峰的意志,雷达感应般的反应力,特制的战斗披风]
+//--可填--
+-Alias 1 -f								//重要别名，如"地狱厨房的恶魔" 可填，少于10字
+-Birthday 4	-f							//角色登场日期， unix时间戳，默认为631123200（1990年1月1日）
+-Passion 1 -f							//热情，逗号分隔，如：[冥想,足球,龙舌兰] 
+-Mate 1 -f								//伙伴，逗号分隔，如：[黑寡妇,幻影杀手] 
+-Team 1 -f								//团队，逗号分隔，如：[神盾局,鸟神号海盗船] 
+
+//同时新建鸟币
+-CoinAlias 1 -f							//唯一鸟币名称，"xxx币"(不包括'币')，不可重复，不可更改，必填，5字内
+-CoinSymbol 1 -f						//鸟币缩写，全英文，如 NB、BTC，字母转换为大写
+
+####################################
+
+//=====skill======
+
+//SkillNewForm 新建技能时提交
+=SkillNewForm
+-UserID 0 -fj					//用户ID，必填
+-RoleID 0 -fj					//角色ID，必填
+
+-Title 1 -fj					//技能名称，不可修改，不超过20个中文，必填
+-Price 4 						//技能价值（鸟币个数/施展一次、NB/次），必填
+-Desc 1 -fj						//技能描述 //非隐藏技能必填，少于3000字
+
+-IsObject 2 -fj                 //是否是实物商品
+-FreeDelivery 2 -fj             //是否包邮
+-Link 1 -fj                  	//商品链接，如淘宝商品链接、京东商品链接、自有网站的商品链接等
+
+####################################
+
+//NewPlotForm 新建超级鸟币的剧情
+=NewPlotForm
+-RoleID 0 						//角色ID，必填
+-CoinID 0 						//鸟币ID，必填
+
+-Name 1							//剧情代号，同一角色无重复名称，20字内
+-Oath 4							//承诺的具体剧情
+-CustomOath 1					//自定义剧情
+
+################################################
+
+//=====coin相关=======
+
+//NewCoinTransferForm 新建一笔鸟币转账（包括鸟币发行和鸟币转手）
+=NewCoinTransferForm
+//---coinT相关---
+-FormRoleID 0 			//转账角色ID
+-ReceiveType 4			//收款方式 4种：1.手机号 2.钱包地址（包括二维码） 3.角色名 4.用户名
+-ToPhone 1 				//1.通过手机号来转账
+-ToPhoneCC 1 			//1.手机号的Country Code
+-ToWalletKey 1 			//2.收款方的鸟币钱包地址
+-ToRoleName 1 			//3.通过唯一的角色名称来转账，转账必须先创建角色和鸟币
+-ToUserName 1			//4.通过唯一的用户名来转账，用户名如果没有修改的话默认是手机号
+
+-IsIssue 2				//是发行还是转手的标识
+-IsSuperCoin 2			//是否是超级鸟币（超级鸟币不计入鸟币信用）
+-ValidDays 4 			//超级鸟币的有效天数
+
+//发行鸟币的时候进行选择鸟币版本。版本有3种，一种是未进行选择，默认选择所有技能；第二种是选择了鸟币技能组，每个技能有若干不同的技能；第三种是超级鸟币
+-CoinID 0				//鸟币ID
+-TransferNum 4 			//交易的鸟币数量
+
+-TradeType 4 			//10种转账类型，——①技能合约  ——②剧情合约 ——③鸟币红包 ——④投资合约(有风险)  ——⑤对赌合约（能保底的投资） ——⑥转卖①|③  ——⑦赠送①|③   ——⑧转卖④|⑤  ——⑨赠送④|⑤ ——⑩赠送②
+//---end---
+
+//---coinV相关----
+-PlotID 0			//超级鸟币剧情ID，如果此项不为空，则忽略SkillSetID
+-SkillIDs 7         //选中的技能ID数组
+
+-CanGift 2 			//是否可以'转赠'鸟币，默认true，占普通鸟币一颗星
+-CanSell 2 			//是否可以'转卖'鸟币，默认true，占普通鸟币一颗星
+-CanCash 2 			//是否可以'提现（RMB）'，默认true，占普通鸟币一颗星
+-CanCashNow 2		//是否可以'立即提现（RMB）'，占普通鸟币一颗星
+-CashDate 3			//可开始提现的日期
+//---end----
+
+################################################
+
+
+//NewCoinCashForm 新建一笔鸟币兑现
+//兑现的类型包括兑现技能、提现现金、履行超级鸟币的承诺
+=NewCoinCashForm
+-FromUserID 0 			//兑现者的UserID
+-ToUserID 0 			//发行者UserID
+-ToRoleID 0				//发行者的角色ID
+
+-CoinID 0 				//鸟币ID
+-CoinVID 0				//要'兑现'的鸟币版本ID（提现则可能有多个版本，并且只考虑可提现的版本）
+-CashNum 4				//兑现多少鸟币，超级鸟币默认为1个
+
+-IsCashMoney 2			//是否是提现现金
+-IsSuperCoin 2			//是否是超级鸟币（超级鸟币不计入鸟币信用）
+-PlotID 0				//超级鸟币剧情ID
+-CashSkillID 0			//兑现的技能ID，可能用到多个版本的鸟币
+
+-State 4				//兑现状态（兑现时需要发行者确认，默认24小时响应，超时自动视为拒绝)
+-Comment 1 				//兑现者使用状态4的说明
+
+-UpdatedAt 4			//更新时间
+-CreatedAt 6 			//创建时间
+
+################################################
+
+//ConfirmCashForm 确认或者拒绝兑现请求
+=ConfirmCashForm
+-CoinCashID 0			//CoinCashID
+-Accept 2				//是否接受兑现请求
+
+################################################

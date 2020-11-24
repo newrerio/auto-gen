@@ -1,0 +1,46 @@
+package models|//Created by niaobi.org|
+
+//Role 对应role表 
+//当下允许每一个人成为理想的自己，使用匿名角色完成对人的去中心化
+=Role
+-ID 0 									//角色ID
+-UserID 0 								//用户ID
+-CoinID 0 								//鸟币ID
+//--请求必填必选--
+-Name 1 								//名字，不可重复，少于10个字
+-Desc 1 								//描述，少于300字
+-Avatar  utils.Pic|Pic*| b:avatar 		//圆形头像
+-Image  utils.Pic|Pic*| b:image 		//矩形头像，默认为个人详情页封面，如果有 user avatar，则使用 user avatar
+-City 1 								//所在地区，如：Neverland、LaLaLand，少于10个字
+-Sex 1 									//心理性别，少于10个字
+-Power 1 								//能力或装备，逗号分隔 如：[人类巅峰的意志,雷达感应般的反应力,特制的战斗披风]
+//--可填--
+-Alias 1 								//重要别名，如"地狱厨房的恶魔" 可填，少于10字
+-Birthday 4 							//角色出场日期， unix时间戳，默认为631123200（1990年1月1日）
+-Passion 1 								//热情，逗号分隔，如：[冥想,足球,龙舌兰] 
+-Mate 1 								//伙伴，逗号分隔，如：[黑寡妇,幻影杀手] 
+-Team 1 								//团队，逗号分隔，如：[神盾局,鸟神号海盗船] 
+
+//--角色的鸟币收支--
+//鸟币'支出'和'收入'的基本概念：
+//对于自己发行的鸟币：'收入'500个=回收500个(Backed)、'支出'500个=发行500个(Issued)
+//对于非自己发行的鸟币：'收入'500个=盈利500个(Earned)、'支出'500个=花费(包括回流和转手)500个(Spend)
+-Backed 4 						//此角色鸟币总回收
+-Issued 4 						//此角色鸟币总发行
+-Earned 4 						//此角色鸟币总盈利
+-Spend 4 						//此角色鸟币总花费
+
+-Deleted 2 						//是否已删除此角色
+-UpdatedAt 4 					//最后更新时间
+-CreatedAt 6 					//首次登场时间
+
+-Sponsor 2						//鸟币赞助者标识
+
+~//=====for client=====
+~strBirthday 1
+~updateTimeAgo 1
+~coinAlias 1 
+~coinSymbol 1
+~descCutoff 1
+
+################################################

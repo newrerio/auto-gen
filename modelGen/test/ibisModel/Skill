@@ -1,0 +1,84 @@
+package models|//Created by niaobi.org|
+
+//Skill 对应skill表 
+//技能（指自身天赋和任何对他人有用的东西）是鸟币所信仰的交易根本价值
+//1.发行时如果新建了CoinV，需要更新相关skill的IsLinkCoinV为true
+//2.使用skill的SignatureID可以查询同一个技能的所有不同历史版本
+//3.实物商品会出现在商家页面
+=Skill 
+-ID 0			 				//技能ID
+-UserID 0 						//用户ID，必填
+-RoleID 0 						//角色ID，必填
+
+-Title 1 						//技能或者物品名称，不可修改，不超过20个中文，必填
+-Price 4 						//技能价值（鸟币个数/施展一次、NB/次），必填
+-Desc 1 						//技能描述 必填，少于3000字
+-Pics []utils.Pic|NSArray*| 	//图片，最多9张，可选 1334/1136/320 
+
+-IsObject 2                     //是否是实物
+-FreeDelivery 2                 //是否包邮
+-Link 1                   		//商品链接，如淘宝商品链接、京东商品链接、自有网站的商品链接等
+
+-Deleted 2 						//技能是否已删除
+-UpdatedAt 4 					//最后更新时间
+-CreatedAt 6 					//创建日期
+
+//参考<发行和技能版本关系图>
+//未链接发币的技能一定是最新技能（IsLinkCoinV=false、IsSnap=false）
+//4种搭配中，不可能存在的情况：（IsLinkCoinV=false、IsSnap=true）
+-IsSnap 2						//是否是最新技能的标记
+-IsLinkCoinV 2 					//是否已在发币时使用过，凡使用过的都不可直接更改，只能用相同SignatureID新建新版本
+-SignatureID 1 					//技能当前版本和技能历史版本的共同ID
+
+~//=====for client=====
+~descCutoff 1
+~showPicInFeed 2
+~updateTimeAgo 1
+
+################################################
+
+//SkillSet 对应skillSet表，技能合集
+//详情参考<发行和技能版本关系图>
+=SkillSet
+-ID 0 
+-RoleID 0									//角色ID，必填
+-CoinID 0 									//鸟币ID，必填
+
+-SUUID 1									//技能组UUID，由SkillID的string Array拼接生成的UUID，唯一不重复
+-SkillIDs []string|NSArray*| 				//当时的技能的SkillID集合
+
+-SkillCount 4 								//技能数量
+-Value 4 									//技能总价值
+
+-Deleted 2 									//是否已删除
+-CreatedAt 6 								//创建时间
+
+~//=====for client=====
+~createdTimeAgo 1
+
+################################################
+
+//Plot 对应plot表。剧情是超级鸟币可兑现的承诺，超级鸟币=承诺付出+言而有信，和coinV表是一对多关系
+//剧情不可修改，只能新建和标记删除
+//注意：1.超级鸟币不影响鸟币信用 2.超级鸟币不可出售、转卖、提现
+/**	oath模板
+	0.愿意为持有者________
+	1.愿意为持有者做任何一件事情
+	2.愿意为持有者做一件不违背道义的事情
+	3.愿意为持有者做一件不违反法律的事情
+	4.愿意为持有者做一件不涉及金钱的事情
+*/
+=Plot
+-ID 0			 				//剧情ID
+-RoleID 0 						//角色ID，必填
+-CoinID 0 						//鸟币ID，必填
+
+-Name 1							//剧情代号，同一角色无重复名称，20字内
+-Oath 4							//承诺的具体剧情
+-CustomOath 1					//自定义剧情
+
+-Deleted 2 						//是否已删除
+-CreatedAt 6 					//创建时间
+
+################################################
+

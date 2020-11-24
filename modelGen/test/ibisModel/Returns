@@ -1,0 +1,162 @@
+package models|//Created by niaobi.org|
+
+//=====user======
+
+//UserRegisterReturn 注册时返回
+=UserRegisterReturn
+-ID 0 							//用户ID 
+-Phone 1 						//Private Info，用户手机号，不可重复 
+-PhoneCC 1 						//Private Info，Country Code
+-Name 1 						//@昵称 不可重复 最多10个汉字，注册必填（自动默认为电话）
+-WalletKey 1 					//自动生成唯一不可更改的鸟币钱包地址，用于接受各种鸟币付款（首次注册时生成）
+-CreatedAt 6 					//账号的创建时间
+-UserActivity 0
+
+####################
+
+//UserProfileReturn 返回用户所有信息，不包含密码
+=UserProfileReturn
+//--用户资料--
+//Private Info指服务器对于非隐私的数据请求不返回数据的字段
+-ID 0 							//用户ID 
+-Phone 1 						//Private Info，用户手机号，不可重复 
+-PhoneCC 1 						//Private Info，Country Code
+-Name 1 						//@昵称 不可重复,可修改 最多10个汉字，注册必填（自动默认为电话）
+-Email 1 						//Private Info，邮箱 找回密码第二个方法 可填
+-Birthday 3 					//生日 unix时间戳默认为631123200（1990年1月1日）可填 
+-Bio 1 							//个性签名 最多128个汉字，支持标签、支持链接 可填
+-Sex 5 							//生理性别，默认为男，可选	
+-City 1 						//城市，可填
+-Lat 3 							//纬度，可填 
+-Lng 3 							//经度，可填	 
+-Avatar utils.Pic|Pic*| 		//头像/真人头像 原图/640/320/160 可填，前端提供默认头像
+-Founder 2 						//鸟币联合创始人标识
+-HasPhoto 2 					//是真人头像则默认显示头像右下角打钩的标志，角色可以单独选择隐藏
+-CreatedAt 6 					//账号的创建时间
+
+//--鸟币和鸟币钱包--
+//鸟币钱包的基本概念：
+//收款是用'鸟币钱包'，付款是用'钱包里面的各种鸟币'
+-WalletKey 1 					//自动生成唯一不可更改的鸟币钱包地址，用于接受各种鸟币付款（首次注册时生成）
+-WalletQRC utils.Pic|Pic*| 		//鸟币钱包地址的二维码（根据WalletKey生成）
+//鸟币'支出'和'收入'的基本概念：
+//(自己发行的)鸟币数量：'收入'500个=回收500个(Backed)、'支出'500个=发行500个(Issued)
+//(非自己发行)鸟币数量：'收入'500个=盈利500个(Earned)、'支出'500个=花费(包括回流和转手)500个(Spend)
+-Backed 4 						//Private Info，总回收量 
+-Issued 4 						//Private Info，总发行量
+-Earned 4 						//Private Info，总盈利量  
+-Spend 4 						//Private Info，总花费量  
+
+//--其他--
+-DeviceToken 1 //iPhone消息推送token
+-UserActivity 0 bo:userActivity //用户动态表ID
+
+####################
+
+//UserBasicReturn 返回用户基本信息，不包含私密信息
+=UserBasicReturn
+-Name 1 						//@昵称 不可重复,可修改 最多10个汉字，注册必填（自动默认为电话）
+-Birthday 3 					//生日 unix时间戳默认为631123200（1990年1月1日）可填 
+-Bio 1 							//个性签名 最多128个汉字，支持标签、支持链接 可填
+-Sex 5 							//生理性别，默认为男，可选	
+-City 1 						//城市，可填
+-Lat 3 							//纬度，可填 
+-Lng 3 							//经度，可填	 
+-Avatar utils.Pic|Pic*| 		//头像/真人头像 原图/640/320/160 可填，前端提供默认头像
+-Founder 2 						//鸟币联合创始人标识
+-HasPhoto 2 					//是真人头像则默认显示头像右下角打钩的标志，角色可以单独选择隐藏
+-CreatedAt 6 					//账号的创建时间
+
+-WalletKey 1 					//自动生成唯一不可更改的鸟币钱包地址，用于接受各种鸟币付款（首次注册时生成）
+-WalletQRC utils.Pic|Pic*| 		//鸟币钱包地址的二维码（根据WalletKey生成）
+
+-UserActivity 0 bo:userActivity //用户动态表ID
+
+####################
+
+//SimpleRoleListReturn 返回角色简易列表
+=SimpleRoleListReturn
+-ID 0 									//角色ID
+-UserID 0 								//用户ID
+-CoinID 0								//coinID
+//--请求必填必选--
+-Name 1 								//名字，不可重复，少于10个字
+-Desc 1 								//描述，少于300字
+-Avatar  utils.Pic|Pic*| b:avatar 		//圆形头像
+-Image  utils.Pic|Pic*| b:image 		//矩形头像，默认为个人详情页封面，如果有 user avatar，则使用 user avatar
+-City 1 								//所在地区，如：Neverland、LaLaLand，少于10个字
+-Sex 1 									//心理性别，少于10个字
+-Power 1 								//能力或装备，逗号分隔 如：[人类巅峰的意志,雷达感应般的反应力,特制的战斗披风]
+//--可填--
+-Alias 1 								//重要别名，如"地狱厨房的恶魔" 可填，少于10字
+-Birthday 4 							//角色出场日期， unix时间戳，默认为631123200（1990年1月1日）
+-Passion 1 								//热情，逗号分隔，如：[冥想,足球,龙舌兰] 
+-Mate 1 								//伙伴，逗号分隔，如：[黑寡妇,幻影杀手] 
+-Team 1 								//团队，逗号分隔，如：[神盾局,鸟神号海盗船] 
+
+-Sponsor 2 						//鸟币赞助者标示
+-Deleted 2 						//是否已删除此角色
+-UpdatedAt 4 					//最后更新时间
+-CreatedAt 6 					//首次登场时间
+
+~//=====for client=====
+~strBirthday 1
+~updateTimeAgo 1
+~coinAlias 1 
+~coinSymbol 1
+~descCutoff 1
+
+####################
+
+//SimpleSkillListReturn 返回某角色的简易技能列表
+=SimpleSkillListReturn 
+-ID 0			 				//技能ID
+-UserID 0 						//用户ID，必填
+-RoleID 0 						//角色ID，必填
+
+-Title 1 						//技能或者物品名称，不可修改，不超过20个中文，必填
+-Price 4 						//技能价值（鸟币个数/施展一次、NB/次），必填
+
+-IsObject 2                     //是否是实物商品
+-FreeDelivery 2                 //是否包邮
+-Link 1                   		//商品链接，如淘宝商品链接、京东商品链接、自有网站的商品链接等
+
+-Deleted 2 						//技能是否已删除
+-UpdatedAt 4 					//最后更新时间
+-CreatedAt 6 					//创建日期
+
+//参考<发行和技能版本关系图>
+//未链接发币的技能一定是最新技能（IsLinkCoinV=false、IsSnap=false）
+//4种搭配中，不可能存在的情况：（IsLinkCoinV=false、IsSnap=true）
+-IsSnap 2						//是否是最新技能的标记
+-IsLinkCoinV 2 					//是否已在发币时使用过，凡使用过的都不可直接更改，只能用相同SignatureID新建新版本
+-SignatureID 1 					//技能当前版本和技能历史版本的共同ID
+
+~//=====for client=====
+~updateTimeAgo 1
+
+####################
+
+//BasicCoinReturn 返回基本鸟币信息
+=BasicCoinReturn 
+-ID 0 				//鸟币ID
+-RoleID 0 			//角色ID，必填
+-UserID 0 			//用户ID，必填
+
+-Alias 1 			//唯一鸟币名称，"xxx币"，不可重复，不可更改，必填，5字内
+-CreatedAt 6 		//创建日期
+
+-Version 4 			//目前最新的发行版本号，默认为1。每次发行鸟币时，属性如有变动（包括技能规则修改、属性修改等），则版本号+1
+-Credit 3 			//目前鸟币信用，默认为0
+
+~//=====for client=====
+~updateTimeAgo 1
+~creditLevel 1
+
+####################
+
+//CoinVTTReturn 某种鸟币的不同版本的总持有数
+=CoinVTTReturn
+-Total 4			
+
+####################

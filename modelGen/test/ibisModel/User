@@ -1,0 +1,80 @@
+package models|//Created by niaobi.org|
+
+//User 对应user表 
+=User 
+//--用户资料--
+//Private Info指服务器对于非隐私的数据请求不返回数据的字段
+-ID 0 							//用户ID 
+-Phone 1 						//Private Info，用户手机号，不可重复 
+-PhoneCC 1 						//Private Info，Country Code
+-Pwd 1 -j 						//Private Info，密码加密，不从服务器返回前端 
+-Name 1 						//@昵称 不可重复,可修改 最多10个汉字，注册必填（自动默认为电话）；去空格、英文全小写、去除特殊字符
+-Email 1 						//Private Info，邮箱 找回密码第二个方法 可填
+-Birthday 3 					//生日 unix时间戳默认为631123200（1990年1月1日）可填 
+-Bio 1 							//个性签名 最多128个汉字，支持标签、支持链接 可填
+-Sex 5 							//生理性别，默认为男，可选	
+-City 1 						//城市，可填
+-Lat 3 							//纬度，可填 
+-Lng 3 							//经度，可填	 
+-Avatar utils.Pic|Pic*| 		//头像/真人头像 原图/640/320/160 可填，前端提供默认头像
+-HasPhoto 2 					//是真人头像则默认显示头像右下角打钩的标志，角色可以单独选择隐藏
+-CreatedAt 6 					//账号的创建时间
+
+//--鸟币和鸟币钱包--
+//鸟币钱包的基本概念：
+//收款是用'鸟币钱包'，付款是用'钱包里面的各种鸟币'
+-WalletKey 1 					//自动生成唯一不可更改的鸟币钱包地址，用于接受各种鸟币付款（首次注册时生成）
+-WalletQRC utils.Pic|Pic*| 		//鸟币钱包地址的二维码（根据WalletKey生成）
+//鸟币'支出'和'收入'的基本概念：
+//(自己发行的)鸟币数量：'收入'500个=回收500个(Backed)、'支出'500个=发行500个(Issued)
+//(非自己发行)鸟币数量：'收入'500个=盈利500个(Earned)、'支出'500个=花费(包括回流和转手)500个(Spend)
+-Backed 4 						//Private Info，总回收量 
+-Issued 4 						//Private Info，总发行量
+-Earned 4 						//Private Info，总盈利量  
+-Spend 4 						//Private Info，总花费量  
+
+//--其他--
+-DeviceToken 1 //iPhone消息推送token
+-UserActivity 0 bo:userActivity //用户动态表ID
+
+~//=====for client=====
+~strBirthday 1
+~strSex 1
+~age 4
+~//当前总收入 IncomeAll=Backed+Earned、当前总支出 OutAll=Issued+Spend
+~IncomeAll 4 
+~OutAll 4 
+
+####################################
+
+
+//UserActivity 对应userActivity表 
+//用户动态信息监测
+//1.app开启时每隔1分钟自动静默刷新 2.刷新首页时同时检查动态 3.刷新我的主页同时检查动态
+//当新消息或者请求的标记为 true 时，计算并返回其数量
+=userActivity
+-ID 			//用户动态信息ID
+-UserID 0 		//用户ID
+-UpdatedAt 4 	//最后活跃时间
+//--消息--
+@NewNews 2 -j 	//是否有新消息
+@ReadNews 4 -j 	//已读的消息数
+-NewsNum 4 -b 	//新消息数量
+//--鸟币兑现--
+@NewCash 2 -j 	//是否有新兑现请求
+-Uncashed 4 -b 	//未兑现的请求总数
+
+-RmbExr 3 -b 	//当前汇率(1鸟币合人民币多少)
+
+~//=====for client=====
+~strUpdatedAt 1
+
+####################################
+
+
+~//UserToken jwt返回信息
+~=UserToken
+~Expire 1 -b //token过期时间，小于1周则获取新token
+~Token 1 -b //jwt_token
+
+~####################################

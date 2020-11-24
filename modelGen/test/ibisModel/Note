@@ -1,0 +1,27 @@
+package models|//Created by niaoshenhao.com|
+
+//Note 对应note表 
+=Note 
+
+-ID 0 //热情笔记ID
+-UserID 0 //用户ID，必填
+-RoleID 0 //角色ID，必填
+
+-Md 2 //是否是markdown编辑器
+-Title 1 //标题
+-Desc 1 //缩略内容，不超过128字
+-DescText 1 //纯文字全文，不超过5000字，可用于搜索
+-DescHTML 1 //html格式原文全文，不超过5000字
+-DescMD 1 //markdown格式全文，不超过5000字
+-DescRich 1 //富文本格式全文，不超过5000字
+
+-free 2 //是否可免费浏览，默认NO(仅赞助者可见)
+-Views 4 //浏览次数
+-Deleted 2 //是否已删除
+-UpdatedAt 4 //更新时间
+-CreatedAt 6 //创建时间
+
+~//=====for client=====
+~updateTimeAgo 1
+
+################################################
